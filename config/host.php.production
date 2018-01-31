@@ -1,0 +1,4 @@
+<?
+use Cake\Core\Configure;
+Configure::write('ArApi.host', 'production');
+putenv('DEBUG=0');
