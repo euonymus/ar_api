@@ -1,40 +1,34 @@
 # MEMO
-API feature fully relys on the method below
-http://www.bravo-kernel.com/2015/04/how-to-build-a-cakephp-3-rest-api-in-minutes/
+API feature relys on the method below
 
+    http://www.bravo-kernel.com/2015/04/how-to-build-a-cakephp-3-rest-api-in-minutes/
+
+This uses vendor application Crud
+
+    https://github.com/FriendsOfCake/crud
 
 # Requirement
 
-* PHP
+* PHP7.1+
 * composer
-* MySQL
+* MySQL5.7+
 
 
 # Prepare the application source
 
     $ cd /{source_dir_path}
     $ git checkout master
-    $ rm -fr vendor/j7mbo
     $ composer install
-
-※vendor/j7mbo/twitter-api-php が上手くgit管理できないため
 
 # Prepare Databae
 
-    Build MySQL database named 'twinavitopics'
-    Build MySQL user named 'twinavitopics' (password is in config/app.php)
+    Build MySQL database
+    Build MySQL user (password is in config/app.php)
 
 # Prepare Tables
 
     $ cd /{source_dir_path}
     $ bin/cake migrations migrate
-
-# Prepare Table Datas
-
-    $ mysql -utwinavitopics -p{password} twinavitopics < /{source_dir_path}/vendor/twinavi/data/init_twusers.sql
-    $ mysql -utwinavitopics -p{password} twinavitopics < /{source_dir_path}/vendor/twinavi/data/init_word_patterns.sql
-    $ mysql -utwinavitopics -p{password} twinavitopics < /{source_dir_path}/vendor/twinavi/data/init_tn_authors.sql
-
 
 # Run local server
 
