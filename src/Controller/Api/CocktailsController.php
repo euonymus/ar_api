@@ -1,15 +1,12 @@
 <?php
-namespace App\Controller;
-use App\Controller\AppController;
+namespace App\Controller\Api;
+use App\Controller\Api\AppController;
 class CocktailsController extends AppController
 {
     public $paginate = [
         'page' => 1,
         'limit' => 5,
-        'maxLimit' => 100,
-        'fields' => [
-            'id', 'name', 'description'
-        ],
+        'maxLimit' => 15,
         'sortWhitelist' => [
             'id', 'name'
         ]

@@ -43,7 +43,7 @@ class AppController extends Controller
                 'Crud.Api',
                 'Crud.ApiPagination',
                 'Crud.ApiQueryLog'
-            ],
+            ]
         ]
     ];
 
