@@ -3,9 +3,10 @@ API feature relys on the method below
 
     http://www.bravo-kernel.com/2015/04/how-to-build-a-cakephp-3-rest-api-in-minutes/
 
-This uses vendor application Crud
+This application uses CakePHP plugin Crud and JSON Web Tokens' auth.
 
-    https://github.com/FriendsOfCake/crud
+    Crud: https://github.com/FriendsOfCake/crud
+    JWT auth: https://plugins.cakephp.org/p/1764-cakephp-jwt-auth
 
 # Requirement
 
