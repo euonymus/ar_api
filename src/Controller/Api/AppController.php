@@ -18,11 +18,12 @@ class AppController extends Controller
                 'Crud.Delete'
             ],
             'listeners' => [
-                'Crud.Api',
-                'Crud.ApiPagination',
+                'CrudJsonApi.JsonApi',
+                'CrudJsonApi.Pagination',
                 'Crud.ApiQueryLog'
             ]
         ]);
+/*
         $this->loadComponent('Auth', [
             'storage' => 'Memory',
             'authenticate' => [
@@ -42,6 +43,7 @@ class AppController extends Controller
             'unauthorizedRedirect' => false,
             'checkAuthIn' => 'Controller.initialize'
         ]);
+*/
     }
 
 
