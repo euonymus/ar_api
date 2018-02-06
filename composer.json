@@ -13,7 +13,8 @@
         "friendsofcake/crud": "^5.0",
         "friendsofcake/crud-json-api": "^0.2.2",
         "josegonzalez/dotenv": "2.*",
-        "mobiledetect/mobiledetectlib": "2.*"
+        "mobiledetect/mobiledetectlib": "2.*",
+        "ozee31/cakephp-cors": "^1.1"
     },
     "require-dev": {
         "cakephp/bake": "^1.1",
