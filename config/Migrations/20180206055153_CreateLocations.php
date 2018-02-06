@@ -25,7 +25,7 @@ class CreateLocations extends AbstractMigration
         ]);
         $table->addColumn('geo', 'geometry', [
             'default' => null,
-            'null' => false,
+            'null' => true,
         ]);
         $table->addColumn('altitude', 'string', [
             'default' => null,
