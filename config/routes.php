@@ -43,13 +43,15 @@ use Cake\Routing\Route\DashedRoute;
  */
 Router::defaultRouteClass(DashedRoute::class);
 
-Router::prefix('api', function ($routes) {
+Router::prefix('api', function (RouteBuilder $routes) {
     $routes->extensions(['json', 'xml']);
     $routes->resources('Cocktails');
+    $routes->resources('Locations');
     $routes->resources('Users');
     Router::connect('/api/users/register', ['controller' => 'Users', 'action' => 'add', 'prefix' => 'api']);
     $routes->fallbacks('InflectedRoute');
 });
+
 Router::scope('/', function (RouteBuilder $routes) {
     /**
      * Here, we are connecting '/' (base path) to a controller called 'Pages',
