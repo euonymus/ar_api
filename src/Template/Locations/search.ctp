@@ -1,16 +1,24 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Location[]|\Cake\Collection\CollectionInterface $locations
- */
-?>
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Location'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('Search Location'), ['action' => 'search']) ?></li>
+        <li><?= $this->Html->link(__('List Locations'), ['action' => 'index']) ?></li>
     </ul>
 </nav>
+<div class="locations form large-9 medium-8 columns content">
+    <?= $this->Form->create($location) ?>
+    <fieldset>
+        <legend><?= __('Search Location') ?></legend>
+        <?php
+            echo $this->Form->control('latitude');
+            echo $this->Form->control('longitude');
+            echo $this->Form->control('distance');
+        ?>
+    </fieldset>
+    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->end() ?>
+</div>
+
+<? if (isset($locations)): ?>
 <div class="locations index large-9 medium-8 columns content">
     <h3><?= __('Locations') ?></h3>
     <table cellpadding="0" cellspacing="0">
@@ -22,8 +30,7 @@
                 <th scope="col"><?= $this->Paginator->sort('latitude') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('longitude') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('altitude') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('created') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('distance') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
@@ -36,8 +43,7 @@
                 <td><?= h($location->latitude) ?></td>
                 <td><?= h($location->longitude) ?></td>
                 <td><?= h($location->altitude) ?></td>
-                <td><?= h($location->created) ?></td>
-                <td><?= h($location->modified) ?></td>
+                <td><?= h($location->distance) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $location->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $location->id]) ?>
@@ -58,3 +64,4 @@
         <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
     </div>
 </div>
+<? endif; ?>

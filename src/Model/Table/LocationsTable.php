@@ -115,4 +115,35 @@ class LocationsTable extends Table
       $entity->geo = $this->find()->newExpr()
         ->add('GeomFromText(\'POINT('. $longitude . ' ' . $latitude . ')\')');
     }
+
+
+    /****************************************************************************/
+    /* find                                                                     */
+    /****************************************************************************/
+    public function search($data)
+    {
+      return $this->find()
+	->select(['distance' => self::distanceColumn($data['latitude'], $data['longitude'])])
+	->where(self::whereDistanceLt($data['distance'], $data['latitude'], $data['longitude']));
+    }
+
+    /****************************************************************************/
+    /* where                                                                    */
+    /****************************************************************************/
+    // Unit is in meter
+    public static function distanceColumn($latitude, $longitude)
+    {
+      // ref: http://kobarin.hateblo.jp/entry/20110630/1309419551
+      $latWeight = 111;
+      $longWeight = 91;
+      return "GLENGTH( GEOMFROMTEXT( CONCAT( 'LineString( ". ($longitude * $longWeight) ." ". ($latitude * $latWeight) ." , ', X( geo ) * " . $longWeight . " ,  ' ', Y( geo ) * " . $latWeight . " ,  ')' ) ) ) * 1000";
+    }
+    public static function whereDistanceLt($distance, $latitude, $longitude)
+    {
+      return [self::distanceColumn($latitude, $longitude) . ' <' => $distance];
+    }
+    public static function whereDistanceGt($distance, $latitude, $longitude)
+    {
+      return [self::distanceColumn($latitude, $longitude) . ' >=' => $distance];
+    }
 }
