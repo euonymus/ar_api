@@ -82,6 +82,10 @@ class LocationsTable extends Table
     public function beforeFind(Event $event ,Query $query, $options, $primary)
     {
       $columns = $this->schema()->columns();
+      // remove geo column, in order not to fail data serialization for json output.
+      unset($columns[array_search('geo', $columns)]);
+      array_values($columns);
+      // set latitude and longitude instead.
       $columns['latitude'] = $query->newExpr()->add('Y(geo)');
       $columns['longitude'] = $query->newExpr()->add('X(geo)');
       return $query->select($columns);
