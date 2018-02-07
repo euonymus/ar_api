@@ -7,7 +7,7 @@
 <div class="locations form large-9 medium-8 columns content">
     <?= $this->Form->create($location) ?>
     <fieldset>
-        <legend><?= __('Search Location') ?></legend>
+        <legend><?= __('Geo Location') ?></legend>
         <?php
             echo $this->Form->control('latitude');
             echo $this->Form->control('longitude');

@@ -12,15 +12,15 @@ class LocationsController extends AppController
         ]
     ];
 
-    public function search()
+    public function geo()
     {
-        $location = $this->Locations->newEntity();
-
-        if ($this->request->is(['patch', 'post', 'put'])) {
-	  $query = $subject = $this->Locations->search($this->request->data);
-	  $this->set('locations', $this->paginate($query));
-	  $this->set('_serialize', ['locations']);
-	}
-	$this->set(compact('location'));
+        //if ($this->request->is(['patch', 'post', 'put'])) {
+	//  $query = $subject = $this->Locations->search($this->request->data);
+	//  $this->set('locations', $this->paginate($query));
+	//}
+        $this->Crud->on('beforePaginate', function(\Cake\Event\Event $event) {
+	  $event->getSubject()->query = $this->Locations->search($this->request->data);
+	});
+	return $this->Crud->execute('index');
     }
 }

@@ -15,12 +15,12 @@ class LocationsController extends AppController
         ]
     ];
 
-    public function search()
+    public function geo()
     {
         $location = $this->Locations->newEntity();
 
         if ($this->request->is(['patch', 'post', 'put'])) {
-	  $query = $subject = $this->Locations->search($this->request->data);
+	  $query = $this->Locations->search($this->request->data);
 	  $this->set('locations', $this->paginate($query));
 	  $this->set('_serialize', ['locations']);
 	}
