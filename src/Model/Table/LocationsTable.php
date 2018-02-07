@@ -96,14 +96,19 @@ class LocationsTable extends Table
     public function newEntity($data = null, array $options = [])
     {
       $ret = parent::newEntity( $data, $options);
-      $this->setGeo($ret, $data['latitude'], $data['longitude']);
+      $this->patchGeo($ret, $data);
       return $ret;
     }
     public function patchEntity(EntityInterface $entity, array $data, array $options = [])
     {
       $ret = parent::patchEntity( $entity, $data, $options);
-      $this->setGeo($ret, $data['latitude'], $data['longitude']);
+      $this->patchGeo($ret, $data);
       return $ret;
+    }
+    public function patchGeo(EntityInterface $entity, $data)
+    {
+      if (!is_array($data) || !array_key_exists('latitude', $data) || !array_key_exists('longitude', $data)) return;
+      $this->setGeo($entity, $data['latitude'], $data['longitude']);
     }
     public function setGeo(EntityInterface $entity, $latitude, $longitude)
     {
