@@ -17,7 +17,8 @@
         <?php
             echo $this->Form->control('name');
             echo $this->Form->control('pin_image');
-            echo $this->Form->control('geo');
+            echo $this->Form->control('latitude');
+            echo $this->Form->control('longitude');
             echo $this->Form->control('altitude');
         ?>
     </fieldset>

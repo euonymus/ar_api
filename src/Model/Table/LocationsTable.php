@@ -5,6 +5,8 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Cake\Event\Event;
+use Cake\Datasource\EntityInterface;
 
 /**
  * Locations Model
@@ -75,5 +77,37 @@ class LocationsTable extends Table
             ->notEmpty('altitude');
 
         return $validator;
+    }
+
+    public function beforeFind(Event $event ,Query $query, $options, $primary)
+    {
+      $columns = $this->schema()->columns();
+      $columns['latitude'] = $query->newExpr()->add('Y(geo)');
+      $columns['longitude'] = $query->newExpr()->add('X(geo)');
+      return $query->select($columns);
+    }
+
+    //public function beforeMarshal(Event $event, $data, $options)
+    //{
+    //}
+    //public function beforeSave(Event $event, EntityInterface $entity, array $data, array $options = [])
+    //{
+    //}
+    public function newEntity($data = null, array $options = [])
+    {
+      $ret = parent::newEntity( $data, $options);
+      $this->setGeo($ret, $data['latitude'], $data['longitude']);
+      return $ret;
+    }
+    public function patchEntity(EntityInterface $entity, array $data, array $options = [])
+    {
+      $ret = parent::patchEntity( $entity, $data, $options);
+      $this->setGeo($ret, $data['latitude'], $data['longitude']);
+      return $ret;
+    }
+    public function setGeo(EntityInterface $entity, $latitude, $longitude)
+    {
+      $entity->geo = $this->find()->newExpr()
+        ->add('GeomFromText(\'POINT('. $longitude . ' ' . $latitude . ')\')');
     }
 }

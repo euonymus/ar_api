@@ -25,8 +25,12 @@
             <td><?= h($location->pin_image) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Geo') ?></th>
-            <td><?= h($location->geo) ?></td>
+            <th scope="row"><?= __('Latitude') ?></th>
+            <td><?= h($location->latitude) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Longitude') ?></th>
+            <td><?= h($location->longitude) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Altitude') ?></th>

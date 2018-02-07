@@ -18,7 +18,8 @@
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('name') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('pin_image') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('geo') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('latitude') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('longitude') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('altitude') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('created') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
@@ -31,7 +32,8 @@
                 <td><?= $this->Number->format($location->id) ?></td>
                 <td><?= h($location->name) ?></td>
                 <td><?= h($location->pin_image) ?></td>
-                <td><?= h($location->geo) ?></td>
+                <td><?= h($location->latitude) ?></td>
+                <td><?= h($location->longitude) ?></td>
                 <td><?= h($location->altitude) ?></td>
                 <td><?= h($location->created) ?></td>
                 <td><?= h($location->modified) ?></td>
