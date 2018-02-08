@@ -17,8 +17,7 @@
     <?= $this->Form->button(__('Submit')) ?>
     <?= $this->Form->end() ?>
 </div>
-
-<? if (isset($locations)): ?>
+<? if (isset($locations) && $locations->count()): ?>
 <div class="locations index large-9 medium-8 columns content">
     <h3><?= __('Locations') ?></h3>
     <table cellpadding="0" cellspacing="0">
@@ -35,19 +34,19 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($locations as $location): ?>
+            <?php foreach ($locations as $val): ?>
             <tr>
-                <td><?= $this->Number->format($location->id) ?></td>
-                <td><?= h($location->name) ?></td>
-                <td><?= h($location->pin_image) ?></td>
-                <td><?= h($location->latitude) ?></td>
-                <td><?= h($location->longitude) ?></td>
-                <td><?= h($location->altitude) ?></td>
-                <td><?= h($location->distance) ?></td>
+                <td><?= $this->Number->format($val->id) ?></td>
+                <td><?= h($val->name) ?></td>
+                <td><?= h($val->pin_image) ?></td>
+                <td><?= h($val->latitude) ?></td>
+                <td><?= h($val->longitude) ?></td>
+                <td><?= h($val->altitude) ?></td>
+                <td><?= h($val->distance) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $location->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $location->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $location->id], ['confirm' => __('Are you sure you want to delete # {0}?', $location->id)]) ?>
+                    <?= $this->Html->link(__('View'), ['action' => 'view', $val->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $val->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $val->id], ['confirm' => __('Are you sure you want to delete # {0}?', $val->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

@@ -111,7 +111,7 @@ class LocationsTable extends Table
     }
     public function patchGeo(EntityInterface $entity, $data)
     {
-      if (!is_array($data) || !array_key_exists('latitude', $data) || !array_key_exists('longitude', $data)) return;
+      if (!self::validateGeoFormExistence($data)) return;
       $this->setGeo($entity, $data['latitude'], $data['longitude']);
     }
     public function setGeo(EntityInterface $entity, $latitude, $longitude)
@@ -126,9 +126,14 @@ class LocationsTable extends Table
     /****************************************************************************/
     public function search($data)
     {
-      return $this->find()
-	->select(['distance' => self::distanceColumn($data['latitude'], $data['longitude'])])
-	->where(self::whereDistanceLt($data['distance'], $data['latitude'], $data['longitude']));
+      if (self::validateSearchFormExistence($data)) {
+	$distance = self::distanceColumn($data['latitude'], $data['longitude']);
+	$where = self::whereDistanceLt($data['distance'], $data['latitude'], $data['longitude']);
+      } else {
+	$distance = 0;
+	$where = self::whereNoRecord();
+      }
+      return $this->find()->select(['distance' => $distance])->where($where);
     }
 
     /****************************************************************************/
@@ -149,5 +154,26 @@ class LocationsTable extends Table
     public static function whereDistanceGt($distance, $latitude, $longitude)
     {
       return [self::distanceColumn($latitude, $longitude) . ' >=' => $distance];
+    }
+
+    public static function whereAllRecord()
+    {
+      return ['1' => '1'];
+    }
+    public static function whereNoRecord()
+    {
+      return ['Locations.id' => false];
+    }
+
+    /****************************************************************************/
+    /* Tools                                                                    */
+    /****************************************************************************/
+    public static function validateSearchFormExistence($data)
+    {
+      return (self::validateGeoFormExistence($data) && array_key_exists('distance', $data));
+    }
+    public static function validateGeoFormExistence($data)
+    {
+      return (is_array($data) && array_key_exists('latitude', $data) && array_key_exists('longitude', $data));
     }
 }
