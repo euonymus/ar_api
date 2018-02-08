@@ -15,7 +15,12 @@ class LocationsController extends AppController
     public function geo()
     {
 	$this->Crud->on('beforePaginate', function(\Cake\Event\Event $event) {
-	    $event->getSubject()->query = $this->Locations->search($this->request->data);
+	    if ($this->request->is(['patch', 'post', 'put'])) {
+	      $data = $this->request->data;
+	    } else {
+	      $data = $this->request->query;
+	    }
+	    $event->getSubject()->query = $this->Locations->search($data);
         });
 	return $this->Crud->execute('index');
     }
