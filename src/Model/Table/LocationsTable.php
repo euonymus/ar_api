@@ -70,6 +70,18 @@ class LocationsTable extends Table
             ->requirePresence('geo', 'create')
             ->notEmpty('geo');
 
+        //$validator
+        //    ->scalar('latitude')
+        //    ->requirePresence('latitude', 'create')
+        //    ->notEmpty('latitude')
+        //    ->add('latitude', 'valid', ['rule' => 'numeric']);
+
+        //$validator
+        //    ->scalar('longitude')
+        //    ->requirePresence('longitude', 'create')
+        //    ->notEmpty('longitude')
+        //    ->add('longitude', 'valid', ['rule' => 'numeric']);
+
         $validator
             ->scalar('altitude')
             ->maxLength('altitude', 255)
@@ -126,14 +138,14 @@ class LocationsTable extends Table
     /****************************************************************************/
     public function search($data)
     {
-      if (self::validateSearchFormExistence($data)) {
+      if (self::validateSearchForm($data)) {
 	$distance = self::distanceColumn($data['latitude'], $data['longitude']);
 	$where = self::whereDistanceLt($data['distance'], $data['latitude'], $data['longitude']);
       } else {
 	$distance = 0;
 	$where = self::whereNoRecord();
       }
-      return $this->find()->select(['distance' => $distance])->where($where);
+      return $this->find()->select(['distance' => $distance])->where($where)->order(['distance' => 'ASC']);
     }
 
     /****************************************************************************/
@@ -142,6 +154,8 @@ class LocationsTable extends Table
     // Unit is in meter
     public static function distanceColumn($latitude, $longitude)
     {
+      if (!is_numeric($longitude) || !is_numeric($latitude)) return false;
+
       // ref: http://kobarin.hateblo.jp/entry/20110630/1309419551
       $latWeight = 111;
       $longWeight = 91;
@@ -149,11 +163,15 @@ class LocationsTable extends Table
     }
     public static function whereDistanceLt($distance, $latitude, $longitude)
     {
-      return [self::distanceColumn($latitude, $longitude) . ' <' => $distance];
+      $key = self::distanceColumn($latitude, $longitude);
+      if (!$key) return self::whereNoRecord();
+      return [$key . ' <' => $distance];
     }
     public static function whereDistanceGt($distance, $latitude, $longitude)
     {
-      return [self::distanceColumn($latitude, $longitude) . ' >=' => $distance];
+      $key = self::distanceColumn($latitude, $longitude);
+      if (!$key) return self::whereNoRecord();
+      return [$key . ' >=' => $distance];
     }
 
     public static function whereAllRecord()
@@ -168,6 +186,11 @@ class LocationsTable extends Table
     /****************************************************************************/
     /* Tools                                                                    */
     /****************************************************************************/
+    public static function validateSearchForm($data)
+    {
+      if (!self::validateSearchFormExistence($data)) return false;
+      return (is_numeric($data['longitude']) && is_numeric($data['latitude']) && is_numeric($data['distance']));
+    }
     public static function validateSearchFormExistence($data)
     {
       return (self::validateGeoFormExistence($data) && array_key_exists('distance', $data));
